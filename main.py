@@ -10,9 +10,10 @@ def getUrls():
     envUrlsStr = os.getenv('URLS')
     urlsStr = envUrlsStr
     # 从命令行参数中获取
-    argUrlsStr = sys.argv[1]
-    if len(argUrlsStr) > 0:
-        urlsStr = argUrlsStr
+    if len(sys.argv) >= 2:
+        argUrlsStr = sys.argv[1]
+        if len(argUrlsStr) > 0:
+            urlsStr = argUrlsStr
     urls = urlsStr.splitlines()
 
     return urls
@@ -28,7 +29,7 @@ chrome_options = Options()
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--headless')
-driver = webdriver.Chrome('./chromedriver',chrome_options=chrome_options)
+driver = webdriver.Chrome('./chromedriver', options=chrome_options)
 
 urls = getUrls()
 urlsLen = len(urls)
