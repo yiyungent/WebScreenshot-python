@@ -42,10 +42,15 @@ jobs:
         # 下面两行安装中文字体
         sudo apt install -y --force-yes --no-install-recommends fonts-wqy-microhei
         sudo apt install -y --force-yes --no-install-recommends ttf-wqy-zenhei
+
+    - name: Set time zone
+      env:
+        TZ: Asia/Shanghai
         
     - name: Run App
       run: |
-        sudo python main.py
+        sudo python main.py ${{ secrets.URLS }}
+      # TODO: 发现这样设置环境变量，Python无法获取
       env:
         URLS: ${{ secrets.URLS }}
     
