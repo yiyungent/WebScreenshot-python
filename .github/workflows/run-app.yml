@@ -45,8 +45,7 @@ jobs:
         
     - name: Run App
       run: |
-        sudo python main.py ${{ secrets.URLS }}
-      # TODO: 发现这样设置环境变量，Python无法获取
+        sudo python main.py
       env:
         URLS: ${{ secrets.URLS }}
         TZ: Asia/Shanghai
