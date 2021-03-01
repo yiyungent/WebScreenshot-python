@@ -1,0 +1,58 @@
+name: Run App
+
+on:
+  push:
+  schedule:
+    # 定时任务，在每天的5点执行
+    - cron: '0 21 * * *'
+
+jobs:
+  run-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+        
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    
+    - name: Install dependencies
+      run: |
+        apt-get install unzip
+        pip install selenium
+        # 安装 Chrome
+        # TODO: 固定 Chrome 版本
+        # 注意: Chrome 版本必须与 chromedriver 版本对应
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome*.deb
+        apt-get install -f
+        # TODO: 输出Chrome版本, 失败
+        echo /usr/bin/google-chrome --version
+        # 安装 chromedriver
+        wget http://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        # 为所有用户添加可执行权限 (对chromedriver文件)
+        chmod a+x chromedriver
+        # 下面两行安装中文字体
+        apt install -y --force-yes --no-install-recommends fonts-wqy-microhei
+        apt install -y --force-yes --no-install-recommends ttf-wqy-zenhei
+        
+    - name: Run App
+      run: |
+        python main.py
+      env:
+        URLS: ${{ secrets.URLS }}
+    
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: screenshots
+        clean: false
