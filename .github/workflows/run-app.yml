@@ -27,15 +27,15 @@ jobs:
         sudo apt-get install unzip
         sudo pip install selenium
         # 安装 Chrome
-        # TODO: 固定 Chrome 版本
+        # 固定 Chrome 版本
         # 注意: Chrome 版本必须与 chromedriver 版本对应
-        sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        #sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome*.deb
         sudo apt-get install -f
         # TODO: 输出Chrome版本, 失败
         echo /usr/bin/google-chrome --version
         # 安装 chromedriver
-        sudo wget http://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
+        #sudo wget http://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
         sudo unzip chromedriver_linux64.zip
         # 为所有用户添加可执行权限 (对chromedriver文件)
         sudo chmod a+x chromedriver
