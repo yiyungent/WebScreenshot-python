@@ -26,6 +26,7 @@ jobs:
       run: |
         sudo apt-get install unzip
         sudo pip install selenium
+        cd tools
         # 安装 Chrome
         # 固定 Chrome 版本
         # 注意: Chrome 版本必须与 chromedriver 版本对应
@@ -45,7 +46,7 @@ jobs:
         
     - name: Run App
       run: |
-        sudo python main.py '${{ secrets.URLS }}'
+        sudo python src/main.py '${{ secrets.URLS }}'
       # TODO: 发现这样设置环境变量，Python无法获取
       env:
         URLS: ${{ secrets.URLS }}
